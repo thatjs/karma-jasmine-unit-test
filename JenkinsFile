@@ -1,0 +1,12 @@
+node ('master') {
+    checkout scm
+
+    stage ('build') {
+        gulp build
+    }
+
+    stage ('test') {
+        gulp test
+    }
+
+}
