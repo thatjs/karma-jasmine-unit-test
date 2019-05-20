@@ -1,5 +1,5 @@
 node ('master') {
-    checkout scm
+     git url: 'https://github.com/thatjs/karma-jasmine-unit-test.git'
 
     stage ('build') {
         gulp build
