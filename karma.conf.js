@@ -18,6 +18,7 @@ module.exports = function(config) {
       'config/test/test-main.js',
 
       'src/main/addString.js',
+      'src/main/palindrome.js',
 
       'src/test/**/*-test.js'
 
