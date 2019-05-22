@@ -4,6 +4,7 @@ node ('master') {
 
     stage ('init') {
         sh 'source /var/lib/jenkins/.nvm/nvm.sh'
+        sh 'nvm use'
         sh 'node --version'
         sh 'npm install'
     }
