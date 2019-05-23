@@ -13,6 +13,8 @@ function isPalindrome(str) {
     return valid;
 }
 
+// test prb
+
 // test
 // let first = 'A man, a plan, a canal: Panama';
 // console.log(first);
