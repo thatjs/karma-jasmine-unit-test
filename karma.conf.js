@@ -43,9 +43,17 @@ module.exports = function(config) {
     reporters: ['progress', 'coverage'],
 
     coverageReporter: {
-        type: 'html',
         dir: 'target',
-        subdir: 'coverage'
+        reporters: [{
+            type: 'html',            // target/coverage/index.html
+            subdir: 'coverage'
+        }, {
+            type: 'text-summary',    // target/summary/text-summary.txt
+            subdir: 'coverage/summary',
+            file: 'data.txt'
+        }, {
+            type: 'in-memory'        // enables event coverage_complete
+        }]
     },
 
     thresholds: {

@@ -2,29 +2,36 @@
 
 const { task, series, parallel } = require('gulp');
 
-let colors = require('colors');
-let del = require('del');
-let log = require('fancy-log');
+const startTime = +new Date(),
+    colors = require('colors'),
+    del = require('del'),
+    log = require('fancy-log'),
+    argv = require('minimist')(process.argv.slice(2)),
 
-let karma = require('./config/tasks/karma');
+    karma = require('./config/tasks/karma'),
 
-let paths = {
-    target: 'target'
-};
+    paths = {
+        target: 'target',
+        summary: 'target/coverage/summary'
+    };
+
+const buildNumber = argv.build || 0;
 
 
-// tasks
+// public tasks
+// ============
 function clean (done) {
     return del([paths.target]);
 }
 clean.description = 'Remove build directories and files';
 
-function test (done) {
+
+function unitTests (done) {
     log(colors.green('Run Karma unit tests'));
     karma.test(done);
-    done();
 }
-test.description = 'Run Karma unit tests';
+unitTests.description = 'Run Karma unit tests';
+
 
 function build (done) {
     log(colors.green('build task'));
@@ -34,9 +41,37 @@ build.description = 'Build the project';
 build.flags = { '-e': 'An example flag' };
 
 
-// expose gulp tasks
+function coverage (done) {
+    karma.getCoverage(paths, done);
+    done();
+}
+coverage.description = 'Compare branch coverage to trunk, if >= pass else fail build';
+
+
+function totalTime (done) {
+    let totalTime = new Date(+new Date() - startTime);
+    log('===');
+    log('=== total build time = ' + colors.green(totalTime / 1000) + ' sec ===');
+    done();
+}
+totalTime.description = 'create an empty stream';
+
+
+// aggregates
+// ==========
+const test = series(
+    clean,
+    unitTests,
+    coverage,
+    totalTime
+);
+
+
+// expose public api
+// =================
 exports.build = build;
 exports.default = build;
 
 exports.clean = clean;
 exports.test = test;
+exports.coverage = coverage;
