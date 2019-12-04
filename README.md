@@ -10,9 +10,13 @@ $ npm install
 
 $ npm install -g gulp-cli
 
-### Run Tests
+### Run Tests in local
 
 $ gulp test
+
+### Run Tests in Jenkins
+
+$ gulp test --build ${BUILD_NUMBER}
 
 ### Coverage
 
