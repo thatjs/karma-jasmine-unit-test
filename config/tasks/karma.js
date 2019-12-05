@@ -71,13 +71,12 @@ function getCoverage (paths, done) {
             fn: (match) => {
                 statements = parseFloat(match);
                 return bufferToVinyl.stream(Buffer.from(JSON.stringify({
-                    coverage: {
-                        build: buildNumber,
-                        browser: testRun.browser.name,
-                        tests: testRun.results,
-                        statements: statements
-                    }})), filename)
-                    .pipe(dest(paths.summary));
+                    build: buildNumber,
+                    browser: testRun.browser.name,
+                    tests: testRun.results,
+                    statements: statements
+                })), filename)
+                .pipe(dest(paths.summary));
 
             }
         }));
